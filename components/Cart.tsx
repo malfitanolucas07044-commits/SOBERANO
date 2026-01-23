@@ -41,6 +41,8 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose, items, onRemove, onRecordO
       return;
     }
 
+    const orderId = `SOB-${Math.floor(Math.random() * 10000).toString().padStart(4, '0')}`;
+
     // Aggregate items for order record
     const aggregatedItems = items.map(item => ({
         productName: item.name,
@@ -50,7 +52,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose, items, onRemove, onRecordO
     }));
 
     const newOrder: Order = {
-      id: Math.random().toString(36).substr(2, 9),
+      id: orderId,
       date: new Date().toISOString(),
       customerName,
       customerPhone,
@@ -81,22 +83,23 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose, items, onRemove, onRecordO
             item.variant === '3ml' ? 'Decant 3ml' :
             item.variant === '5ml' ? 'Decant 5ml' : 'Decant 10ml';
         
-        itemList += `- ${item.name} (${variantLabel}) x${count} - Gs. ${(getPrice(item) * count).toLocaleString()}\n`;
+        itemList += `▪ ${item.name} (${variantLabel}) x${count}\n`;
     });
 
     const paymentLabel = paymentMethods.find(p => p.id === paymentMethod)?.label;
 
-    const msg = `Hola Lucas, quiero realizar el siguiente pedido:
-
+    const msg = `*NUEVO PEDIDO WEB - ${orderId}*
+--------------------------------
+*Cliente:* ${customerName}
+*Dirección:* ${customerAddress || 'A coordinar'}
+--------------------------------
+*DETALLE DEL PEDIDO:*
 ${itemList}
-Subtotal: Gs. ${total.toLocaleString()}
-Total: Gs. ${total.toLocaleString()}
+*TOTAL A PAGAR: Gs. ${total.toLocaleString()}*
+--------------------------------
+*Método de Pago:* ${paymentLabel}
 
-Método de pago seleccionado: ${paymentLabel}
-
-Dirección de entrega: ${customerAddress || 'A coordinar'}
-
-¡Gracias!`;
+Hola Lucas, acabo de generar este pedido desde la web. Quedo atento para coordinar el pago y envío.`;
     
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
   };

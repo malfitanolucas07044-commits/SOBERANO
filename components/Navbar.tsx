@@ -25,11 +25,11 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate, cartItemCount,
   return (
     <nav className="fixed top-0 w-full z-50 bg-slate-50/95 backdrop-blur-sm border-b border-slate-200 transition-all duration-300 shadow-sm">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
-        <div className="flex justify-between items-center h-24">
+        <div className="flex justify-between items-center h-16 md:h-24">
           
           {/* LEFT: Logo */}
           <div className="flex-shrink-0 flex items-center cursor-pointer select-none" onClick={handleLogoClick}>
-             <span className="font-header text-2xl md:text-3xl font-bold text-navy-900 tracking-[0.1em]">
+             <span className="font-header text-xl md:text-3xl font-bold text-navy-900 tracking-[0.1em]">
               SOBERANO
             </span>
           </div>
@@ -42,20 +42,20 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate, cartItemCount,
           </div>
 
           {/* RIGHT: Icons */}
-          <div className="flex items-center space-x-6">
+          <div className="flex items-center space-x-4 md:space-x-6">
             <button 
               className={`transition relative ${currentView === 'WISHLIST' ? 'text-navy-900' : 'text-slate-400 hover:text-navy-900'}`} 
               onClick={() => onNavigate('WISHLIST')}
               title="Lista de Deseos"
             >
-              <Heart size={24} strokeWidth={1.5} />
+              <Heart size={20} className="md:w-6 md:h-6" strokeWidth={1.5} />
               {wishlistCount > 0 && (
                 <span className="absolute -top-1 -right-1 flex items-center justify-center w-2.5 h-2.5 bg-navy-900 rounded-full"></span>
               )}
             </button>
 
             <button className="relative text-navy-900 hover:text-navy-800 transition" onClick={onOpenCart}>
-              <ShoppingBag size={24} strokeWidth={1.5} />
+              <ShoppingBag size={20} className="md:w-6 md:h-6" strokeWidth={1.5} />
               {cartItemCount > 0 && (
                 <span className="absolute -top-2 -right-2 inline-flex items-center justify-center w-4 h-4 text-[10px] font-bold text-white bg-navy-900 rounded-full">
                   {cartItemCount}
@@ -66,7 +66,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate, cartItemCount,
             {/* Mobile Menu Button */}
             <div className="md:hidden flex items-center">
               <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="text-navy-900 hover:text-navy-800">
-                {isMobileMenuOpen ? <X size={28} strokeWidth={1.5} /> : <Menu size={28} strokeWidth={1.5} />}
+                {isMobileMenuOpen ? <X size={24} strokeWidth={1.5} /> : <Menu size={24} strokeWidth={1.5} />}
               </button>
             </div>
           </div>
