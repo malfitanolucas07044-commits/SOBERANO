@@ -4,15 +4,12 @@ export const WHATSAPP_NUMBER = '595984508348';
 export const CONTACT_NAME = 'Soberano';
 
 export const WATCH_HERO_IMAGES = [
-  'https://images.unsplash.com/photo-1523170335258-f5ed11844a49?q=80&w=2080&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1547996663-b85580e93299?q=80&w=2070&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1619983081563-430f63602796?q=80&w=1974&auto=format&fit=crop'
+  'https://firebasestorage.googleapis.com/v0/b/soberano-web.firebasestorage.app/o/products%2F1770055608573_descarga.jfif?alt=media&token=51dd42d4-06e3-4e60-b572-ee3ab15a660d'
 ];
 
 export const PERFUME_HERO_IMAGES = [
-  'https://images.unsplash.com/photo-1615160822187-8494eb7cbe85?q=80&w=2146&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1595535373192-fc09355289e5?q=80&w=1974&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1585675100412-42c278c6431e?q=80&w=1974&auto=format&fit=crop'
+  'https://firebasestorage.googleapis.com/v0/b/soberano-web.firebasestorage.app/o/products%2F1770055615638_Fragrance_Wardrobe%F0%9F%96%A4.jfif?alt=media&token=de5c619e-22a8-4ce9-860a-0a41832a32f8'
+
 ];
 
 export const REVIEWS = [
