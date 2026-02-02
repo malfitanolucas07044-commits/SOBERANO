@@ -5,7 +5,7 @@ import ProductModal from './ProductModal';
 
 interface ProductListProps {
   products: Product[];
-  category: ProductCategory;
+  category: string;
   onAddToCart: (product: Product, variant: 'bottle' | '3ml' | '5ml' | '10ml') => void;
   onToggleWishlist: (product: Product) => void;
   wishlistIds: string[];
@@ -21,7 +21,8 @@ const ProductList: React.FC<ProductListProps> = ({ products, category, onAddToCa
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const filteredProducts = useMemo(() => {
-    let filtered = products.filter(p => p.category === category);
+    // 1. Filter by Category AND Visibility (isVisible !== false handles undefined as true for legacy data)
+    let filtered = products.filter(p => p.category === category && p.isVisible !== false);
     
     if (category === ProductCategory.PERFUME && selectedPerfumeType !== 'TODOS') {
       filtered = filtered.filter(p => p.subCategory === selectedPerfumeType);
@@ -69,7 +70,7 @@ const ProductList: React.FC<ProductListProps> = ({ products, category, onAddToCa
       {/* Header & Promos */}
       <div className="pt-8 pb-6 md:pt-16 md:pb-12 text-center px-4">
         <h2 className="text-2xl md:text-4xl font-header font-bold text-navy-900 mb-2 md:mb-4 tracking-[0.1em] uppercase">
-          {category === ProductCategory.WATCH ? 'Relojes' : 'Perfumes'}
+          {category}
         </h2>
         {category === ProductCategory.PERFUME && (
            <h3 className="text-gold-dim font-serif text-sm md:text-lg italic mb-4 md:mb-6">Fragancias Exclusivas</h3>
@@ -81,9 +82,9 @@ const ProductList: React.FC<ProductListProps> = ({ products, category, onAddToCa
              <div className="text-center">
                 <p className="text-navy-900 font-bold text-[10px] md:text-xs uppercase tracking-widest border border-navy-900 px-4 py-1.5 md:px-6 md:py-2 inline-block">Envío gratuito en Asunción</p>
              </div>
-           ) : (
+           ) : category === ProductCategory.PERFUME ? (
              <p className="text-slate-500 font-sans text-xs md:text-sm tracking-wide">Opciones en Frasco Completo o Decants</p>
-           )}
+           ) : null}
         </div>
 
         {/* Filters (Perfume only) */}
@@ -268,6 +269,29 @@ const ProductList: React.FC<ProductListProps> = ({ products, category, onAddToCa
                           )}
                         </div>
                     </div>
+                  )}
+
+                  {/* GENERIC/OTHER LAYOUT (For Accesorios, etc) */}
+                  {category !== ProductCategory.WATCH && category !== ProductCategory.PERFUME && (
+                     <div className="mt-auto w-full">
+                        <div className="text-center mb-4 h-8 flex items-center justify-center">
+                             {product.offerPrice ? (
+                                <div className="flex gap-2 items-center">
+                                    <span className="text-slate-400 line-through text-xs">{product.price.toLocaleString('es-PY')}</span>
+                                    <span className="text-navy-900 font-bold text-lg">{product.offerPrice.toLocaleString('es-PY')} Gs</span>
+                                </div>
+                                ) : (
+                                <span className="text-navy-900 font-bold text-lg">{product.price.toLocaleString('es-PY')} Gs</span>
+                                )}
+                        </div>
+                        <button 
+                            onClick={() => product.isStock && onAddToCart(product, 'bottle')}
+                            disabled={!product.isStock}
+                            className={`w-full py-3 text-xs uppercase tracking-[0.2em] transition-all ${product.isStock ? 'bg-navy-900 text-white hover:bg-navy-800' : 'bg-gray-200 text-gray-500 cursor-not-allowed'}`}
+                        >
+                            {product.isStock ? 'Agregar al Carrito' : 'Sin Stock'}
+                        </button>
+                     </div>
                   )}
                </div>
             </div>

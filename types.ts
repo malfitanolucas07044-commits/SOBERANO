@@ -16,12 +16,13 @@ export interface Product {
   brand: string;
   price: number;
   offerPrice?: number;
-  category: ProductCategory;
+  category: string; // Changed from ProductCategory to string to allow dynamic categories
   subCategory?: PerfumeType;
   description: string;
   image: string; // Main cover image
   gallery?: string[]; // Additional images (Max 3 total recommended)
   isStock: boolean; // New field for stock management
+  isVisible?: boolean; // New field to show/hide product in store
   isBestSeller?: boolean; // New field for 'Más Vendido'
   isDecantAvailable?: boolean;
   decantPrice3ml?: number;

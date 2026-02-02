@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
+
     <!-- SEO & Social Sharing (Open Graph) -->
     <title>Soberano | Relojes y Perfumes Exclusivos</title>
     <meta name="description" content="Descubre la colección más exclusiva de relojes y perfumes nicho en Paraguay. Elegancia atemporal y fragancias distintivas.">
@@ -15,26 +15,31 @@
     <meta name="theme-color" content="#001F3F">
 
     <script src="https://cdn.tailwindcss.com"></script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Playfair+Display:wght@400;600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Playfair+Display:wght@400;600&family=Montserrat:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    >
+
     <script>
       tailwind.config = {
         theme: {
           extend: {
             fontFamily: {
-              header: ['Cinzel', 'serif'], // New header font
+              header: ['Cinzel', 'serif'],
               serif: ['Playfair Display', 'serif'],
               sans: ['Montserrat', 'sans-serif'],
             },
             colors: {
               gold: {
-                DEFAULT: '#D4AF37', 
+                DEFAULT: '#D4AF37',
                 dim: '#C5A028',
               },
               navy: {
                 800: '#002855',
-                900: '#001F3F', // Deep Navy
+                900: '#001F3F',
                 950: '#001021',
               },
               slate: {
@@ -45,65 +50,51 @@
                 900: '#212529',
               }
             },
-            animation: {
-              'fade-in': 'fadeIn 0.8s ease-out',
-              'slide-up': 'slideUp 0.6s ease-out',
-              'slide-in-right': 'slideInRight 0.4s ease-out',
-            },
-            keyframes: {
-              fadeIn: {
-                '0%': { opacity: '0' },
-                '100%': { opacity: '1' },
-              },
-              slideUp: {
-                '0%': { transform: 'translateY(20px)', opacity: '0' },
-                '100%': { transform: 'translateY(0)', opacity: '1' },
-              },
-              slideInRight: {
-                '0%': { transform: 'translateX(100%)' },
-                '100%': { transform: 'translateX(0)' },
-              }
-            }
           }
         }
       }
     </script>
+
     <style>
       body {
-        background-color: #F8F9FA; /* Slate 50 */
+        background-color: #F8F9FA;
         color: #212529;
       }
-      /* Navy Scrollbar */
       ::-webkit-scrollbar {
         width: 8px;
       }
       ::-webkit-scrollbar-track {
-        background: #E9ECEF; 
+        background: #E9ECEF;
       }
       ::-webkit-scrollbar-thumb {
-        background: #001F3F; 
+        background: #001F3F;
         border-radius: 4px;
         border: 2px solid #E9ECEF;
       }
       ::-webkit-scrollbar-thumb:hover {
-        background: #002855; 
+        background: #002855;
       }
     </style>
-  <script type="importmap">
+
+    <!-- IMPORTMAP SIN FIREBASE -->
+    <script type="importmap">
 {
   "imports": {
+    "react": "https://esm.sh/react@^19.2.3",
+    "react/": "https://esm.sh/react@^19.2.3/",
     "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
     "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
     "@google/genai": "https://esm.sh/@google/genai@^1.37.0",
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "react": "https://esm.sh/react@^19.2.3"
+    "firebase/": "https://esm.sh/firebase@^12.8.0/"
   }
 }
 </script>
-<link rel="stylesheet" href="/index.css">
+  <link rel="stylesheet" href="/index.css">
 </head>
+
   <body>
     <div id="root"></div>
-  <script type="module" src="/index.tsx"></script>
-</body>
+    <!-- Tu entry point -->
+    <script type="module" src="/index.tsx"></script>
+  </body>
 </html>

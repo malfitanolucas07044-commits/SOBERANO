@@ -13,7 +13,9 @@ import Toast from './components/Toast';
 import Preloader from './components/Preloader';
 import PoliciesModal from './components/PoliciesModal';
 import { Instagram, Mail, Phone, Truck, Award, CreditCard, Lock, Loader2 } from 'lucide-react';
-import { getProductsFromFirebase, saveProductToFirebase, deleteProductFromFirebase } from './services/firebaseService';
+import { getProductsFromFirebase, saveProductToFirebase, deleteProductFromFirebase, logoutAdmin } from './services/firebaseService';
+import { auth } from './firebaseConfig';
+import { onAuthStateChanged } from 'firebase/auth';
 
 const App: React.FC = () => {
   const [view, setView] = useState<ViewState>('HOME');
@@ -25,7 +27,7 @@ const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isPolicyOpen, setIsPolicyOpen] = useState(false);
   
-  // Hero Images State (Keep simpler for now or move to DB later)
+  // Hero Images State
   const [watchHeroImages, setWatchHeroImages] = useState<string[]>(WATCH_HERO_IMAGES);
   const [perfumeHeroImages, setPerfumeHeroImages] = useState<string[]>(PERFUME_HERO_IMAGES);
 
@@ -39,16 +41,23 @@ const App: React.FC = () => {
   // Auth State
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
 
-  // Initialize Data - LOAD FROM FIREBASE
+  // Initialize Data & Auth Listener
   useEffect(() => {
+    // 1. Auth Listener (Persistencia de sesión)
+    let unsubscribeAuth: () => void;
+    if (auth) {
+      unsubscribeAuth = onAuthStateChanged(auth, (user) => {
+        setIsAdminAuthenticated(!!user);
+      });
+    }
+
     const initData = async () => {
-      // 1. Load Products from Firestore
+      // 2. Load Products from Firestore
       try {
         const dbProducts = await getProductsFromFirebase();
         if (dbProducts.length > 0) {
           setProducts(dbProducts);
         } else {
-          // Fallback to constants if DB is empty
           setProducts(PRODUCTS);
         }
       } catch (e) {
@@ -56,22 +65,22 @@ const App: React.FC = () => {
         setProducts(PRODUCTS);
       }
 
-      // 2. Load LocalStorage items (Cart, Wishlist, Orders can remain local for now)
+      // 3. Load LocalStorage items
       const savedWishlist = localStorage.getItem('soberano_wishlist');
       if (savedWishlist) setWishlist(JSON.parse(savedWishlist));
 
       const savedOrders = localStorage.getItem('soberano_orders');
       if (savedOrders) setOrders(JSON.parse(savedOrders));
-
-      const auth = sessionStorage.getItem('soberano_admin_auth');
-      if (auth === 'true') setIsAdminAuthenticated(true);
     };
 
     initData();
+
+    return () => {
+      if (unsubscribeAuth) unsubscribeAuth();
+    };
   }, []);
 
-  // Persistence (Only for user-local data like Wishlist/Orders)
-  // Note: We removed products from localStorage because we want them from Firebase
+  // Persistence
   useEffect(() => { localStorage.setItem('soberano_wishlist', JSON.stringify(wishlist)); }, [wishlist]);
   useEffect(() => { localStorage.setItem('soberano_orders', JSON.stringify(orders)); }, [orders]);
 
@@ -84,12 +93,11 @@ const App: React.FC = () => {
   // Auth Handlers
   const handleLoginSuccess = () => {
     setIsAdminAuthenticated(true);
-    sessionStorage.setItem('soberano_admin_auth', 'true');
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await logoutAdmin();
     setIsAdminAuthenticated(false);
-    sessionStorage.removeItem('soberano_admin_auth');
     setView('HOME');
   };
 
@@ -289,7 +297,6 @@ const App: React.FC = () => {
           {/* Detailed Footer */}
           {view !== 'ADMIN' && (
             <footer className="bg-slate-100 border-t border-slate-200 mt-auto">
-              {/* Footer content unchanged */}
               <div className="max-w-7xl mx-auto py-10 md:py-16 px-6 grid grid-cols-1 md:grid-cols-3 gap-8 text-center border-b border-slate-200">
                 <div className="flex flex-col items-center group">
                   <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-white flex items-center justify-center text-navy-900 mb-4 shadow-sm group-hover:bg-navy-900 group-hover:text-white transition-colors duration-500">
