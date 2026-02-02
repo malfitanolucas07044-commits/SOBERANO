@@ -8,7 +8,7 @@ export const WATCH_HERO_IMAGES = [
 ];
 
 export const PERFUME_HERO_IMAGES = [
-  'https://firebasestorage.googleapis.com/v0/b/soberano-web.firebasestorage.app/o/products%2F1770055615638_Fragrance_Wardrobe%F0%9F%96%A4.jfif?alt=media&token=de5c619e-22a8-4ce9-860a-0a41832a32f8'
+  'https://firebasestorage.googleapis.com/v0/b/soberano-web.firebasestorage.app/o/products%2F1770057983119_f8f88003f759febee75b9d00e74757b7.jpg?alt=media&token=103d6ca3-7d06-4e95-8c85-74443150b0df'
 
 ];
 
